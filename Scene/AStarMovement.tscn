@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://tyk5m87v6qbe"]
+
+[node name="AStarMovement" type="Node2D"]

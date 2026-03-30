@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://bs57igai1h81y"]
+
+[ext_resource type="Script" uid="uid://c7hkuj0rcw4f1" path="res://Script/player.gd" id="1_3eeal"]
+[ext_resource type="Texture2D" uid="uid://cf55bs8o1p73" path="res://Sprite/Sprite-0002.png" id="1_6l3be"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3eeal"]
+radius = 8.0
+height = 26.0
+
+[node name="Player" type="CharacterBody2D"]
+y_sort_enabled = true
+input_pickable = true
+script = ExtResource("1_3eeal")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+y_sort_enabled = true
+texture_filter = 1
+position = Vector2(0, -2)
+texture = ExtResource("1_6l3be")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -7)
+shape = SubResource("CapsuleShape2D_3eeal")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

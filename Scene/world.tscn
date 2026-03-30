@@ -1,0 +1,96 @@
+[gd_scene load_steps=12 format=4 uid="uid://ucq1gp5fu7ab"]
+
+[ext_resource type="Texture2D" uid="uid://3uofu8ayyskn" path="res://Sprite/Sprite-0001.png" id="1_emx41"]
+[ext_resource type="PackedScene" uid="uid://bs57igai1h81y" path="res://Scene/Player.tscn" id="2_dlwip"]
+[ext_resource type="Script" uid="uid://bbley76xtblpr" path="res://Script/debug.gd" id="2_ejll3"]
+[ext_resource type="PackedScene" uid="uid://clf6a1a5xslv4" path="res://Scene/Enemy.tscn" id="4_scul4"]
+[ext_resource type="Script" uid="uid://cekqxfulm4j1o" path="res://Script/TurnManager.gd" id="6_37axr"]
+[ext_resource type="PackedScene" uid="uid://dbryl4csoboav" path="res://Scene/UI.tscn" id="6_ol2hl"]
+[ext_resource type="PackedScene" uid="uid://tyk5m87v6qbe" path="res://Scene/AStarMovement.tscn" id="7_ddf65"]
+[ext_resource type="Script" uid="uid://bbmxh5f8yscj3" path="res://Script/AStarMovement.gd" id="8_h7cfj"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_dlwip"]
+vertices = PackedVector2Array(16, -8, 0, 0, -16, -8, 0, -16)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-16, -8, 0, 0, 16, -8, 0, -16)])
+agent_radius = 0.0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ejll3"]
+texture = ExtResource("1_emx41")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/texture_origin = Vector2i(0, -8)
+0:0/0/y_sort_origin = -16
+0:0/0/navigation_layer_0/polygon = SubResource("NavigationPolygon_dlwip")
+0:0/0/custom_data_0 = true
+1:0/0 = 0
+1:0/0/texture_origin = Vector2i(0, 8)
+1:0/0/y_sort_origin = -4
+1:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, 4, 0, 0, 8, 4, 8, 16, 0, 20, -8, 16)
+2:0/0 = 0
+2:0/0/texture_origin = Vector2i(0, 8)
+2:0/0/custom_data_0 = true
+0:1/0 = 0
+0:1/0/texture_origin = Vector2i(0, -8)
+0:1/0/y_sort_origin = -8
+1:1/0 = 0
+1:1/0/texture_origin = Vector2i(0, -8)
+0:2/0 = 0
+1:2/0 = 0
+2:1/size_in_atlas = Vector2i(1, 2)
+2:1/0 = 0
+2:1/0/texture_origin = Vector2i(0, 8)
+2:1/0/z_index = -1
+
+[sub_resource type="TileSet" id="TileSet_scul4"]
+tile_shape = 1
+tile_layout = 5
+tile_offset_axis = 1
+tile_size = Vector2i(32, 16)
+physics_layer_0/collision_layer = 1
+navigation_layer_0/layers = 1
+custom_data_layer_0/name = "Walkable"
+custom_data_layer_0/type = 1
+sources/0 = SubResource("TileSetAtlasSource_ejll3")
+
+[node name="World" type="Node2D"]
+y_sort_enabled = true
+
+[node name="Debug" type="Node2D" parent="." node_paths=PackedStringArray("tilemap")]
+z_index = 2
+position = Vector2(-207, -140)
+script = ExtResource("2_ejll3")
+tilemap = NodePath("../Ground")
+
+[node name="Ground" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+texture_filter = 1
+tile_map_data = PackedByteArray("AAADAAMAAAAAAAAAAAAEAAMAAAAAAAAAAAAFAAMAAAAAAAAAAAAGAAMAAAAAAAAAAAAHAAMAAAAAAAAAAAAIAAMAAAAAAAAAAAAJAAMAAAAAAAAAAAAJAAIAAAAAAAAAAAAJAAEAAAAAAAAAAAAJAAAAAAAAAAAAAAAJAP//AAAAAAAAAAAJAP7/AAAAAAAAAAAJAP3/AAAAAAAAAAADAAIAAAAAAAAAAAADAAEAAAAAAAAAAAADAAAAAAAAAAAAAAADAP//AAAAAAAAAAADAP7/AAAAAAAAAAADAP3/AAAAAAAAAAAEAP3/AAAAAAAAAAAFAP3/AAAAAAAAAAAGAP3/AAAAAAAAAAAHAP3/AAAAAAAAAAAIAP3/AAAAAAAAAAAEAP7/AAAAAAAAAAAFAP7/AAAAAAAAAAAGAP7/AAAAAAAAAAAHAP7/AAAAAAAAAAAIAP7/AAAAAAAAAAAEAP//AAAAAAAAAAAEAAAAAAAAAAAAAAAEAAEAAAAAAAAAAAAEAAIAAAAAAAAAAAAFAAIAAAAAAAAAAAAHAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAFAAEAAAAAAAAAAAAFAP//AAAAAAAAAAAGAAEAAAAAAAAAAAAGAAIAAAAAAAAAAAAHAP//AAAAAAAAAAAIAP//AAAAAAAAAAAIAAAAAAAAAAAAAAAIAAEAAAAAAAAAAAAHAAEAAAAAAAAAAAAHAAIAAAAAAAAAAAAGAP//AAAAAAAAAAAIAAIAAAAAAAAAAAA=")
+tile_set = SubResource("TileSet_scul4")
+
+[node name="Obstacle" type="TileMapLayer" parent="."]
+y_sort_enabled = true
+texture_filter = 1
+tile_map_data = PackedByteArray("AAAHAAAAAAABAAAAAAAGAAAAAAABAAAAAAAFAAAAAAABAAAAAAAHAP//AAABAAAAAAACAAMAAAACAAEAAAACAAIAAAACAAEAAAACAAEAAAACAAEAAAACAAAAAAACAAEAAAACAP//AAACAAEAAAACAP7/AAACAAEAAAACAP3/AAACAAEAAAACAPz/AAACAAEAAAADAPz/AAACAAEAAAAEAPz/AAACAAEAAAAFAPz/AAACAAEAAAAGAPz/AAACAAEAAAAHAPz/AAACAAEAAAAIAPz/AAACAAEAAAAJAPz/AAACAAEAAAAIAAIAAAABAAAAAAAJAAEAAAABAAAAAAA=")
+tile_set = SubResource("TileSet_scul4")
+
+[node name="Player" parent="." node_paths=PackedStringArray("tilemap") instance=ExtResource("2_dlwip")]
+position = Vector2(96, 64)
+tilemap = NodePath("../Obstacle")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(113, 40)
+
+[node name="Enemy" parent="." instance=ExtResource("4_scul4")]
+position = Vector2(112, 8)
+
+[node name="Enemy2" parent="." instance=ExtResource("4_scul4")]
+position = Vector2(128, 96)
+
+[node name="Ui" parent="." instance=ExtResource("6_ol2hl")]
+
+[node name="TurnManager" type="Node2D" parent="."]
+script = ExtResource("6_37axr")
+
+[node name="ASM" parent="." instance=ExtResource("7_ddf65")]
+script = ExtResource("8_h7cfj")
