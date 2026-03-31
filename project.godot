@@ -22,6 +22,10 @@ window/size/viewport_height=360
 window/size/borderless=true
 window/stretch/mode="canvas_items"
 
+[dotnet]
+
+project/assembly_name="IsometricTest"
+
 [global_group]
 
 enemy=""

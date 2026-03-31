@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://dbryl4csoboav"]
+[gd_scene load_steps=14 format=3 uid="uid://dbryl4csoboav"]
 
 [ext_resource type="Texture2D" uid="uid://d0pwq6j3srr02" path="res://Sprite/Sprite-0004.png" id="1_we040"]
 [ext_resource type="Script" uid="uid://d30huvxl4ym0o" path="res://Script/ui.gd" id="1_ycrtq"]
+[ext_resource type="FontFile" uid="uid://cs58ypa160k0y" path="res://Fishwell.ttf" id="3_7nlkl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i3p7b"]
 atlas = ExtResource("1_we040")
@@ -71,5 +72,23 @@ offset_right = 191.0
 offset_bottom = -10.0
 grow_vertical = 0
 theme_override_constants/separation = 20
+
+[node name="Phases" type="Label" parent="."]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -73.0
+offset_top = -43.0
+offset_right = 119.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_7nlkl")
+theme_override_font_sizes/font_size = 32
+text = "PICK YOUR HANDS!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="EndTurnButton" to="." method="_on_button_pressed"]

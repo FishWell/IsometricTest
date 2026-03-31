@@ -41,9 +41,9 @@ func card_selected():
 		if is_selected:
 			is_selected = false
 			animation.play("selected")
-			print("Unselected")
+			#print("Unselected")
 			return
-		print("Selected")
+		#print("Selected")
 		is_selected = true
 		animation.play("hover")
 

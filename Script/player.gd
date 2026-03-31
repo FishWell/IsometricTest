@@ -2,6 +2,10 @@ extends CharacterBody2D
 
 @export var move_range := 5
 @export var tilemap: TileMapLayer
+@export var deck_size: int = 5
+@export var power_min: int = 1
+@export var power_max: int = 5
+@export var health: int = 20
 @onready var turn_mngr := $"../TurnManager"
 @onready var astar_mngr = $"../ASM"
 @onready var astar : AStarGrid2D = astar_mngr.astar
