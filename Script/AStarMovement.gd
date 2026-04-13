@@ -2,11 +2,12 @@ extends Node2D
 
 var astar := AStarGrid2D.new()
 var static_walls := {}
-@onready var tilemap : TileMapLayer = $"../Obstacle"
+@onready var ground : TileMapLayer = $"../Ground"
+@onready var obstacle : TileMapLayer = $"../Obstacle"
 @onready var player : CharacterBody2D = $"../Player"
 
 func _ready():
-	astar.region = tilemap.get_used_rect()
+	astar.region = ground.get_used_rect()
 	astar.cell_size = Vector2i(1, 1) # IMPORTANT: grid space, not pixels
 	astar.diagonal_mode = AStarGrid2D.DIAGONAL_MODE_NEVER
 	astar.default_compute_heuristic = AStarGrid2D.HEURISTIC_MANHATTAN
@@ -16,14 +17,14 @@ func _ready():
 	
 
 func bake_static_obstacles():
-	for cell in tilemap.get_used_cells():
-		var tile_data = tilemap.get_cell_tile_data(cell)
-		if tile_data:
+	for cell in obstacle.get_used_cells():
+		var tile_data = obstacle.get_cell_tile_data(cell)
+		if tile_data.get_custom_data("block") == true:
 			static_walls[cell] = true
-			astar.set_point_solid(cell, true)
+			astar.set_point_solid(cell, false)
 
 func update_unit_blocking():
-	var rect = tilemap.get_used_rect()
+	var rect = ground.get_used_rect()
 	for x in range(rect.position.x, rect.end.x):
 		for y in range(rect.position.y, rect.end.y):
 			var cell = Vector2i(x, y)
@@ -31,5 +32,12 @@ func update_unit_blocking():
 	for cell in static_walls.keys():
 		astar.set_point_solid(cell, true)
 	for enemy in get_tree().get_nodes_in_group("enemy"):
-		var cell = tilemap.local_to_map(enemy.global_position)
+		var cell = ground.local_to_map(enemy.global_position)
 		astar.set_point_solid(cell, true)
+
+func get_obs_tiles(tile_type: String = "obstacle"):
+	if tile_type != "enemy": return static_walls.keys()
+	var cell = []
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		cell.append(ground.local_to_map(enemy.global_position))
+	return cell

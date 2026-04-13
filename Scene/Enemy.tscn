@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://clf6a1a5xslv4"]
+[gd_scene load_steps=5 format=3 uid="uid://clf6a1a5xslv4"]
 
 [ext_resource type="Script" uid="uid://delbvdgw41ef6" path="res://Script/enemyAI.gd" id="1_h0dic"]
 [ext_resource type="Texture2D" uid="uid://b4ofqr620v4ty" path="res://Sprite/Sprite-0003.png" id="1_nc1xg"]
+[ext_resource type="PackedScene" uid="uid://lvaca72shod" path="res://Scene/DialogBox.tscn" id="3_jy6qf"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_nc1xg"]
 radius = 8.0
 height = 26.0
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+input_pickable = true
 script = ExtResource("1_h0dic")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -17,3 +19,13 @@ texture = ExtResource("1_nc1xg")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_nc1xg")
+
+[node name="DialogBox" parent="." instance=ExtResource("3_jy6qf")]
+visible = false
+offset_left = -17.0
+offset_top = -58.0
+offset_right = -17.0
+offset_bottom = -58.0
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
